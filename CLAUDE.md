@@ -17,6 +17,21 @@ A change to anything a human sees rendered (a web page, a UI, a deployed site, a
 3. The Chief opens at least the strategic screenshots (image bytes seen, file non-zero), grades them against the quality bar as the actual users, and only THEN uses the word "complete." Before that the status is "in flight" or "QC pending," never "done."
 4. This binds QC agents, implementation claims, and the Chief's own reporting. No exceptions, no "I am confident it works."
 
+## Requirements, Not Implementation
+
+Briefs and task descriptions provide requirements (what), resources (docs, references), and guidance (quality standards, things to avoid). They do NOT prescribe line-by-line implementation. The executing agent reads the defining documents and current library documentation, then executes. Prescribing implementation makes briefs stale and constrains agents to the Chief's possibly-wrong assumptions.
+
+## Chief Dispatch Checklist: run before spawning any implementation agent
+
+Before dispatching any agent that will edit rendered or production files, the Chief runs this checklist. Skipping a step is the failure mode this exists to prevent. Each step has a one-line why. This is the sequence that ties together the Branching & Worktree Strategy section (worktree isolation), the Requirements, Not Implementation section, and the Visual Validation Law section; see those sections for full text.
+
+1. WORKTREE. Create an isolated git worktree (`git worktree add .worktrees/<lane> -b <lane>`) and point the agent at it; it commits to its branch and never touches the main checkout. (Why: isolation, and the Chief merges from verified commits, never from self-attestation. Multiple lanes touching one file is solved by worktrees, not by sequencing.)
+2. FULL CONTEXT CORPUS. Give the agent the complete reading list (the cold-start contract: the team brief plus the latest handoff plus the source docs), not a curated subset. (Why: the operational hierarchy structures the work; the corpus grounds it. An agent evaluates and executes only from what it was given.)
+3. REQUIREMENTS, NOT IMPLEMENTATION. Point the agent at the defining documents and the quality bar; do not transcribe line-by-line edits. The agent reads the docs and executes. (Why: prescribing implementation makes briefs stale and constrains the agent to the Chief's possibly-wrong assumptions.)
+4. PROVE WITH PIXELS. Any rendered change is proven with `playwright-cli` screenshots at desktop and mobile, opened and checked (the Visual Validation Law). A git push is not a deploy. (Why: agent self-report is inadmissible; only the pixels are evidence.)
+5. MERGE FROM VERIFIED BRANCHES. The Chief reviews the branch diff and merges verified commits; never merges on an agent's word. (Why: a late commit from a wrapped lane is suspect by default.)
+6. GRADE THE PIXELS. The Chief deploys, screenshots the live URL at both widths, opens them, and only THEN says "complete." Before that, status is "in flight" or "QC pending." (Why: this binds the Chief's own reporting, not just the agents'.)
+
 ## Project Structure
 
 ```
