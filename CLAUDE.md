@@ -8,6 +8,15 @@ Auto Claude is a multi-agent autonomous coding framework that builds software th
 
 **CRITICAL: All AI interactions use the Claude Agent SDK (`claude-agent-sdk` package), NOT the Anthropic API directly.**
 
+## Visual Validation Law: Screenshot Or It Did Not Happen
+
+A change to anything a human sees rendered (a web page, a UI, a deployed site, an animation, a generated document) is NOT done, complete, shipped, or QC-passed until a screenshot of the ACTUAL RENDERED RESULT has been captured and OPENED. Agent self-report ("it renders", "built", "looks good", "responsive") is inadmissible as evidence. The only evidence is the pixels.
+
+1. Screenshots are captured with the existing `playwright-cli` skill (grep `.claude/skills/` for it and invoke it; never hand-roll raw `npx playwright`, and never claim the screenshot tool is missing without skill or ToolSearch discovery). Capture at BOTH a desktop width (about 1440) and a mobile width (about 390), against the deployed URL or the locally served build, saved to disk.
+2. "Pushed to git" is NOT "deployed" and NOT "live." A git push updates a repository; it changes nothing a human sees. Before calling a change live, deploy it and confirm the deployed URL actually serves the change.
+3. The Chief opens at least the strategic screenshots (image bytes seen, file non-zero), grades them against the quality bar as the actual users, and only THEN uses the word "complete." Before that the status is "in flight" or "QC pending," never "done."
+4. This binds QC agents, implementation claims, and the Chief's own reporting. No exceptions, no "I am confident it works."
+
 ## Project Structure
 
 ```
